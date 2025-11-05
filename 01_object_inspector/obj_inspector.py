@@ -1,37 +1,46 @@
 #!/usr/bin/env python3
 import inspect
 import sys
-import types
 import pprint
 import gc
-import sys
 
 def inspect_object(obj):
-    print("="*80)
-    print(f"🔍 Object: {obj}")
+    print("=" * 80)
+    print(f"🔍 Object: {obj!r}")
     print(f"📦 Type: {type(obj)}")
     print(f"📏 Size (bytes): {sys.getsizeof(obj)}")
-    print("-"*80)
+    print("-" * 80)
 
     # Atributos públicos
     attrs = [a for a in dir(obj) if not a.startswith('__')]
-    print(f"📜 Attributes ({len(attrs)}): {attrs}")
-    print("-"*80)
+    print(f"📜 Attributes ({len(attrs)}):")
+    pprint.pp(attrs)
+    print("-" * 80)
 
-    # Métodos
-    methods = [name for name, val in inspect.getmembers(obj, inspect.ismethod) or inspect.isfunction]
-    print(f"⚙️  Methods: {methods}")
-    print("-"*80)
+    # Métodos (functions o methods)
+    methods = [
+        name for name, val in inspect.getmembers(obj)
+        if inspect.isfunction(val) or inspect.ismethod(val)
+    ]
+    print(f"⚙️  Methods ({len(methods)}):")
+    pprint.pp(methods)
+    print("-" * 80)
 
     # Herencia
     cls = type(obj)
-    print("🏗️  MRO (Method Resolution Order):")
-    pprint.pp([c.__name__ for c in inspect.getmro(cls)])
-    print("-"*80)
+    if inspect.isclass(cls):
+        mro = [c.__name__ for c in inspect.getmro(cls)]
+        print("🏗️  MRO (Method Resolution Order):")
+        pprint.pp(mro)
+        print("-" * 80)
 
     # Referencias (avanzado)
-    refs = gc.get_referrers(obj)
-    print(f"🔗 Referrers count: {len(refs)}")
+    try:
+        refs = gc.get_referrers(obj)
+        print(f"🔗 Referrers count: {len(refs)}")
+    except Exception as e:
+        print(f"⚠️  Could not get referrers: {e}")
+    print("=" * 80)
 
 def main():
     if len(sys.argv) != 2:
@@ -47,3 +56,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
