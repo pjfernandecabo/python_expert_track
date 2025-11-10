@@ -139,10 +139,14 @@ git push
 ```bash
 git checkout -b feature/leccion-01
 # trabajo y commits
+
 git checkout dev
 git merge feature/leccion-01
 git push
 
+git checkout main
+git merge dev
+git push
 ```
 ---
 ## 📘 Progreso del curso
