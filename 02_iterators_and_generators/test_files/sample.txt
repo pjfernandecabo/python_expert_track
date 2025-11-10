@@ -1,0 +1,5 @@
+Python es un lenguaje poderoso.
+Rust es rápido y seguro.
+Me gusta programar en Python.
+Los generadores son muy útiles.
+Iterar es más eficiente que copiar.

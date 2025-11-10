@@ -4,6 +4,34 @@ Bienvenido al **Python Expert Track**, un programa completo diseñado para domin
 
 ---
 
+# WARNING PEDRO
+Before begin coding pls: 
+
+1. activate uv env and deactivate conda base env:
+```bash
+source /home/pedro/Projects/python_expert_track/.venv_3_13/bin/activate &&
+conda deactivate
+```
+
+2. Create a new branch in every lesson
+
+
+```bash
+git checkout -b feature/lesson-01
+```
+
+3. Make new lesson dir
+
+```bash
+mkdir 04_metaprogramming
+```
+
+4. Make Readme.md in every lesson
+
+5. Finally, then, go to Github chapter to manage GIT commands
+
+---
+
 ## 🚀 Objetivo del curso
 
 El objetivo es aprender **Python en profundidad** mediante **proyectos reales (hands-on)**, construyendo herramientas y sistemas avanzados que consolidan cada concepto.
