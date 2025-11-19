@@ -49,3 +49,84 @@ ResourceMonitor/
 ✔ Dunder Methods
 
 - `__repr__` imprime el estado del recurso.
+
+## Diagrama de flujo conceptual
+
+```css
+[ 1️⃣ Factory: create_resource_class  ]
+       |
+       | genera
+       v
+  ---------------------
+  |  CPUResource       |  <- clase dinámica
+  |-------------------|
+  | attributes: usage  |
+  | attributes: temp   |
+  | methods: update()  |
+  | methods: __repr__  |
+  ---------------------
+       |
+       | hereda junto con BaseResource
+       v
+  ---------------------
+  |      CPU           |  <- clase final
+  |-------------------|
+  | bases: CPUResource |
+  |        BaseResource|
+  ---------------------
+       |
+       | metaclase ResourceRegistry.__new__ se ejecuta
+       v
+  ---------------------
+  | ResourceRegistry   |
+  | registry['CPU'] = CPU |
+  ---------------------
+       |
+       | CPU ahora registrada
+       v
+  ---------------------
+  | instancia cpu = CPU(usage=20, temperature=40) |
+  |-------------------|
+  | atributos: usage=20, temperature=40          |
+  | métodos: update(), __repr__                  |
+  | estadísticas: _stats={'calls':0, 'errors':0}|
+  ---------------------
+
+```
+
+```css
+                   +----------------------+
+                   | create_resource_class|
+                   +----------------------+
+                             |
+                             v
+                   +----------------------+
+                   |     CPUResource      |
+                   |-------------------- |
+                   | attributes: usage,  |
+                   |            temp     |
+                   | methods: update(),  |
+                   |          __repr__   |
+                   +----------------------+
+                             |
+       +---------------------+---------------------+
+       |                                           |
+       v                                           v
++----------------------+                +----------------------+
+|        CPU           |<---------------|   BaseResource       |
+|--------------------- |                | metaclass=ResourceReg|
+| bases: CPUResource    |                | registry: {}         |
+|        BaseResource   |                +----------------------+
++----------------------+
+             |
+             v
++-------------------------------+
+| instancia cpu = CPU(...)      |
+|-------------------------------|
+| attributes: usage=20, temp=40|
+| methods: update(), __repr__   |
+| stats: _stats={'calls':0}     |
++-------------------------------+
+
+```
+![flow](ResourceMonitor_diagram.png)

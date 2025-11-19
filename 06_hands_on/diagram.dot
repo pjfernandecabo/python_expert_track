@@ -1,0 +1,17 @@
+digraph ResourceMonitor {
+
+    rankdir=TB;
+    node [shape=record, style=filled, fillcolor=lightgray];
+
+    Factory [label="{create_resource_class()|genera CPUResource}"];
+    CPUResource [label="{CPUResource|attributes: usage, temp|methods: update(), __repr__}"];
+    BaseResource [label="{BaseResource|metaclass=ResourceRegistry|registry: empty}"];
+    CPU [label="{CPU|bases: CPUResource, BaseResource}"];
+    Instance [label="{cpu = CPU(...)|attributes: usage=20, temp=40|methods: update(), __repr__|_stats: calls=0}"];
+
+    Factory -> CPUResource;
+    CPUResource -> CPU;
+    BaseResource -> CPU;
+    CPU -> Instance;
+}
+
