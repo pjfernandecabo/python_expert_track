@@ -1,0 +1,2 @@
+[92m[TS] Hola mundo[0m
+[92m[TS] Segundo log[0m
