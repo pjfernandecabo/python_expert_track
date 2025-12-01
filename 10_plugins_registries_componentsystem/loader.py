@@ -5,7 +5,19 @@ import sys
 from pathlib import Path
 from typing import List
 from registry import get_registry, register_plugin
+from importlib.metadata import entry_points
 
+def discover_entrypoint_plugins(group="myapp.plugins"):
+    eps = entry_points().get(group, [])
+
+    for ep in eps:
+        try:
+            plugin_class = ep.load()
+            register_plugin(plugin_class)
+            print(f"[ENTRYPOINT] Loaded plugin {ep.name} from {ep.module}")
+        except Exception as e:
+            print(f"[ERROR] loading entry point {ep.name}: {e}")
+            
 def discover_plugins_from_package(package_name: str):
     """
     Import all submodules in the package and rely on them to register.
